@@ -13,6 +13,7 @@ image:
 variables:
   PLAN: plan.tfplan
   JSON_PLAN_FILE: tfplan.json
+  KEYS: ./keys.tfvars
 
 cache:
   paths:
@@ -38,6 +39,7 @@ validate:
 plan:
   stage: build
   script:
+    - echo "Building..... terraform plan"
     - terraform plan -out=$PLAN
     - "terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE"
   artifacts:
@@ -52,6 +54,7 @@ apply:
   environment:
     name: production
   script:
+    - echo "in Production"
     - terraform apply -input=false $PLAN
   dependencies:
     - plan
