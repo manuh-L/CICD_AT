@@ -40,7 +40,7 @@ plan:
   stage: build
   script:
     - echo "Building..... terraform plan"
-    - terraform plan -out=$PLAN
+    - terraform plan -var-file="keys.tfvars" -out=$PLAN
     - "terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE"
   artifacts:
     paths:
@@ -55,7 +55,7 @@ apply:
     name: production
   script:
     - echo "in Production"
-    - terraform apply -input=false $PLAN
+    - terraform apply -var-file="keys.tfvars" -input=false $PLAN
   dependencies:
     - plan
   when: manual
