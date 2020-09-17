@@ -69,13 +69,13 @@ apply:
 
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
-remove:
-  stage: destroy
+apply:destroy:
+  stage: deploy
   environment:
     name: production
   script:
     - echo "in Production"
-    - terraform destroy -input=false $PLAN
+    - terraform destroy -input=false
   dependencies:
     - plan
   when: manual
