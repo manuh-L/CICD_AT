@@ -35,10 +35,11 @@ stages:
 validate:
   stage: validate
   script:
-    - echo "Terraform validate"
-    - terraform validate
     - echo $AWS_ACCESS_KEY_ID
     - echo $AWS_SECRET_ACCESS_KEY
+    - echo "Terraform validate"
+    - terraform validate
+
 
 plan:
   stage: build
