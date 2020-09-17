@@ -30,6 +30,7 @@ stages:
   - build
   - test
   - deploy
+  - destroy
 
 validate:
   stage: validate
@@ -60,6 +61,21 @@ apply:
   script:
     - echo "in Production"
     - terraform apply -input=false $PLAN
+  dependencies:
+    - plan
+  when: manual
+  only:
+    - master
+
+# Separate destroy job for manual launching Terraform as it can be destructive
+# action.
+remove:
+  stage: destroy
+  environment:
+    name: production
+  script:
+    - echo "in Production"
+    - terraform destroy -input=false $PLAN
   dependencies:
     - plan
   when: manual
