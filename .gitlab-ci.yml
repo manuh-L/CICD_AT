@@ -36,7 +36,7 @@ validate:
   stage: validate
   script:
     - echo $AWS_ACCESS_KEY_ID
-    - echo AWS_SECRET_ACCESS_KEY
+    - echo $AWS_SECRET_ACCESS_KEY
     - echo "Terraform validate"
     - terraform validate
 
