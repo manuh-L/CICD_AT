@@ -1,2 +1,2 @@
-aws_access_key = "AKIA2BIHHWQRAHWEGJEN"
-aws_secret_key = "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"
+#aws_access_key = "AKIA2BIHHWQRIBRQ3D3O"
+#aws_secret_key = "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"
