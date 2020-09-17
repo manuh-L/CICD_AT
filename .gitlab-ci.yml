@@ -75,7 +75,7 @@ destroy:
     name: production
   script:
     - echo "in Production"
-    - terraform destroy -input=false
+    - terraform destroy -input=false -auto-approve
   dependencies:
     - plan
   when: manual
