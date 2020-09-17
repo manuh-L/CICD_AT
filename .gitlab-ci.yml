@@ -69,7 +69,7 @@ apply:
 
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
-apply:destroy:
+destroy:
   stage: deploy
   environment:
     name: production
