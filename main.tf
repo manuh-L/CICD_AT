@@ -95,8 +95,13 @@ resource "aws_instance" "apache_terraform" {
   provisioner "remote-exec" {
     inline = [
       "sudo yum update -y",
-      "chmod 400 ./PrivateSvr.pem"
+      
     ]
+  }
+
+
+    provisioner "local-exec" {
+    command = "chmod 400 ./PrivateSvr.pem"
   }
 
 #Creates inventory for ansible
@@ -111,6 +116,8 @@ ansible_ssh_private_key_file=${var.private_key_path}
 EOF
 EOD
   }
+
+
 
 #executes ansible playbook to install apache
   provisioner "local-exec" {
