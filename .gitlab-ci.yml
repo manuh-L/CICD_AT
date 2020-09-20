@@ -1,13 +1,11 @@
-# Official image for Hashicorp's Terraform. It uses light image which is Alpine
-# based as it is much lighter.
-#
+
 # Entrypoint is also needed as image by default set `terraform` binary as an
 # entrypoint.
 image:
-  name: registry.gitlab.com/gitlab-org/gitlab-build-images:terraform
+  name: williamyeh/ansible:ubuntu18.04
   entrypoint:
-    - '/usr/bin/env'
-    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+#    - '/usr/bin/env'
+#    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     - 'AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
     - 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}'
 
@@ -38,14 +36,14 @@ validate:
     - echo $AWS_ACCESS_KEY_ID
     - echo $AWS_SECRET_ACCESS_KEY
     - echo "Terraform validate"
-    - terraform validate
+    - ./terraform validate
 
 
 plan:
   stage: build
   script:
     - echo "Building..... terraform plan"
-    - terraform plan -out=$PLAN
+    - ./terraform plan -out=$PLAN
     - "terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE"
   artifacts:
     paths:
@@ -60,7 +58,7 @@ apply:
     name: production
   script:
     - echo "in Production"
-    - terraform apply -input=false $PLAN
+    - ./terraform apply -input=false $PLAN
   dependencies:
     - plan
   when: manual
@@ -75,7 +73,7 @@ destroy:
     name: production
   script:
     - echo "in Production"
-    - terraform destroy -input=false -auto-approve
+    - ./terraform destroy -input=false -auto-approve
   dependencies:
     - plan
   when: manual
