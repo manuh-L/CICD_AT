@@ -9,3 +9,4 @@ terraform apply -var-file="keys.tfvars" -auto-approve
 #Delete
 
 terraform destroy -auto-approve
+terraform destroy -var-file="keys.tfvars" -auto-approve
