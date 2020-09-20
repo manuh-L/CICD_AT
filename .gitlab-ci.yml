@@ -58,6 +58,7 @@ apply:
     name: production
   script:
     - echo "in Production"
+    - cp ./ansible.cfg /etc/ansible/
     - ./terraform apply -input=false $PLAN
   dependencies:
     - plan
