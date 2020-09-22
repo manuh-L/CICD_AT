@@ -1,8 +1,7 @@
-
 # Entrypoint is also needed as image by default set `terraform` binary as an
 # entrypoint.
-image:
-  name: williamyeh/ansible:ubuntu18.04
+#image:
+#  name: williamyeh/ansible:ubuntu18.04
 #  entrypoint:
 #    - '/usr/bin/env'
 #    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
@@ -21,6 +20,9 @@ cache:
 before_script:
   - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
   - ./terraform --version
+  - packer --version
+  - ansible --version
+  - terraform --version
   - ./terraform init
 
 stages:
@@ -36,7 +38,10 @@ validate:
     - echo $AWS_ACCESS_KEY_ID
     - echo $AWS_SECRET_ACCESS_KEY
     - echo "Terraform validate"
-    - ./terraform validate
+    - terraform --version
+    - packer --version
+    - ansible --version
+    - terraform validate
 
 
 plan:
