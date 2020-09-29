@@ -12,7 +12,7 @@
 variables:
   PLAN: plan.tfplan
   JSON_PLAN_FILE: tfplan.json
-
+  STATE_APPLY: to.tfstate
 cache:
   paths:
     - .terraform
