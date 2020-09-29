@@ -30,7 +30,7 @@ stages:
   - validate
   - build
   - test
-  - deploy
+  - production
   - destroy
 
 validate:
@@ -50,11 +50,12 @@ plan:
   stage: build
   script:
     - echo "Building..... terraform plan"
-    - terraform plan -out=$PLAN
+    - terraform plan -state=$STATE -out=$PLAN
     - terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE
   artifacts:
     paths:
       - $PLAN
+      - $STATE
     reports:
       terraform: $JSON_PLAN_FILE
 
@@ -66,22 +67,26 @@ deploy:
   environment:
     name: test
   script:
-    - terraform apply -input=false $PLAN
+    - terraform apply -state=$STATE -input=false $PLAN
   dependencies:
     - plan
-
+#  artifacts:
+#    name: state
+#    paths:
+#        - $STATE
 
 
 apply:
-  stage: deploy
+  stage: production
   environment:
     name: production
   script:
-    - echo "in Production"
+    - echo ".....in Production"
 #    - cp ./ansible.cfg /etc/ansible/
     - terraform apply -input=false $PLAN
   dependencies:
     - plan
+#    - test
   when: manual
   only:
     - master
@@ -89,14 +94,15 @@ apply:
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
 destroy:
-  stage: deploy
+  stage: production
   environment:
     name: production
   script:
-    - echo "in Production"
-    - terraform destroy -input=false -auto-approve
+    - echo "Destroying"
+    - terraform destroy -state=$STATE -auto-approve #-input=false #-auto-approve
   dependencies:
     - plan
+#    - test
   when: manual
   only:
     - master

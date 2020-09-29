@@ -46,7 +46,7 @@ resource "aws_default_vpc" "default" {
 }
 
 resource "aws_security_group" "allow_ssh" {
-  name        = "SSH_HTTP_ALLOW123"
+  name        = "SSH_HTTP_ALLOW1323${var.commit_hash}"
   description = "Allow ports 22 & 80"
   vpc_id      = aws_default_vpc.default.id
 
