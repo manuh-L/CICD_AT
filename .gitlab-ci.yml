@@ -62,7 +62,7 @@ plan:
 # action.
 
 deploy:
-  stage: Test
+  stage: test
   environment:
     name: test
   script:
