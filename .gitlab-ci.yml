@@ -49,7 +49,7 @@ plan:
   stage: build
   script:
     - echo "Building..... terraform plan"
-    - ./terraform plan -out=$PLAN
+    - terraform plan -out=$PLAN
 #    - ./terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE
   artifacts:
     paths:
@@ -65,7 +65,7 @@ apply:
   script:
     - echo "in Production"
     - cp ./ansible.cfg /etc/ansible/
-    - ./terraform apply -input=false $PLAN
+    - terraform apply -input=false $PLAN
   dependencies:
     - plan
   when: manual
@@ -80,7 +80,7 @@ destroy:
     name: production
   script:
     - echo "in Production"
-    - ./terraform destroy -input=false -auto-approve
+    - terraform destroy -input=false -auto-approve
   dependencies:
     - plan
   when: manual
