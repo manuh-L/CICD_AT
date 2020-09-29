@@ -9,7 +9,7 @@ variable "key_name" {}
 variable "user" {
     description = "user for ssh"
 }
-variable "commit_hash" {}
+#variable "commit_hash" {}
 #variable "region" {
 #    default = "af-south-1"
 #}
