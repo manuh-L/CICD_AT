@@ -46,7 +46,6 @@ validate:
     - terraform init
     - terraform validate
 
-
 plan:
   stage: build
   script:
