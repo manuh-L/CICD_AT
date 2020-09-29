@@ -68,9 +68,13 @@ deploy:
   environment:
     name: test
   script:
-    - terraform apply -state=$STATE -input=false $PLAN
+    - terraform apply -state=$STATE -input=false $PLAN -state-out=$STATE_APPLY
+  artifacts:
+    paths:
+      - $STATE_APPLY
   dependencies:
     - plan
+
 #  artifacts:
 #    name: state
 #    paths:
@@ -105,8 +109,9 @@ destroy:
     - echo "Destroying"
     - terraform destroy -state=$STATE_APPLY -input=false -auto-approve #-input=false #-auto-approve
   dependencies:
-#    - plan
-    - apply
+    - plan
+    - deploy
+#    - apply
 #    - test
   when: manual
   only:
