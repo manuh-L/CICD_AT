@@ -69,7 +69,7 @@ deploy:
     name: test
   script:
 #    - terraform apply -state=$STATE -input=false $PLAN -state-out=$STATE_APPLY
-    - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
+    - terraform apply -state-out=$STATE_APPLY -input=false $PLAN
   artifacts:
     paths:
       - $STATE_APPLY
