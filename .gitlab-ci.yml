@@ -31,6 +31,7 @@ stages:
   - build
   - test
   - production
+  - production1
   - destroy
 
 validate:
@@ -97,7 +98,7 @@ apply:
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
 destroy:
-  stage: production
+  stage: production1
   environment:
     name: production
   script:
