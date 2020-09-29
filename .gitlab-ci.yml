@@ -105,7 +105,8 @@ destroy:
     - terraform destroy -state=$STATE_APPLY -input=false -auto-approve #-input=false #-auto-approve
   dependencies:
 #    - plan
-    - apply
+    - production
+#    - apply
 #    - test
   when: manual
   only:
