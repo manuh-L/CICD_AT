@@ -83,7 +83,10 @@ apply:
   script:
     - echo ".....in Production"
 #    - cp ./ansible.cfg /etc/ansible/
-    - terraform apply -input=false $PLAN
+    - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
+  artifacts:
+    paths:
+      - $STATE_APPLY
   dependencies:
     - plan
 #    - test
@@ -99,9 +102,10 @@ destroy:
     name: production
   script:
     - echo "Destroying"
-    - terraform destroy -state=$STATE -auto-approve #-input=false #-auto-approve
+    - terraform destroy -state=$STATE_APPLY -input=false -auto-approve #-input=false #-auto-approve
   dependencies:
-    - plan
+#    - plan
+    - apply
 #    - test
   when: manual
   only:
