@@ -7,7 +7,7 @@
 provider "aws" {
 #  access_key = var.aws_access_key
 #  secret_key = var.aws_secret_key
-  region     = "af-south-1"
+  region     = var.region
 }
 
 ##################################################################################
@@ -46,7 +46,7 @@ resource "aws_default_vpc" "default" {
 }
 
 resource "aws_security_group" "allow_ssh" {
-  name        = "SSH_HTTP_ALLOW13"
+  name        = var.sec_name
   description = "Allow ports 22 & 80"
   vpc_id      = aws_default_vpc.default.id
 
@@ -72,12 +72,12 @@ resource "aws_security_group" "allow_ssh" {
 
 resource "aws_instance" "apache_terraform" {
   ami                    = data.aws_ami.aws-linux.id
-  instance_type          = "t3.micro"
+  instance_type          = var.instance_type
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   tags = {
-      Name = "apache"
-      Role = "web"
+      Name = var.tag_Name
+      Role = var.tag_Role
 
   }
 
