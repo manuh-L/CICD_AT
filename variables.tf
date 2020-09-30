@@ -9,8 +9,8 @@ variable "key_name" {}
 variable "user" {
     description = "user for ssh"
 }
-variable "Name" {}
-variable "Role" {}
+variable "tag_Name" {}
+variable "tag_Role" {}
 variable "instance_type" {}
 variable "region" {}
 variable "sec_name" {}
