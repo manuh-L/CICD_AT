@@ -74,7 +74,8 @@ deploy:
       - $STATE_APPLY
   dependencies:
     - plan
-
+  only:
+    - master
 #  artifacts:
 #    name: state
 #    paths:
@@ -102,11 +103,10 @@ apply:
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
 destroy:
-  stage: production1
+  stage: destroy
   environment:
     name: production
   script:
-    - echo "Destroying"
     - terraform destroy -state=$STATE_APPLY -input=false -auto-approve #-input=false #-auto-approve
   dependencies:
     - plan
