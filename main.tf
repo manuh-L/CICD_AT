@@ -47,7 +47,7 @@ resource "aws_default_vpc" "default" {
 
 resource "aws_security_group" "allow_ssh" {
   name        = var.sec_name
-  description = "Allow ports 22 & 80"
+  description = "Allow ports 22 & 80 aws"
   vpc_id      = aws_default_vpc.default.id
 
   ingress {
