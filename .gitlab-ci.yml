@@ -75,7 +75,7 @@ deploy:
   dependencies:
     - plan
   only:
-    - master
+    - test
 #  artifacts:
 #    name: state
 #    paths:
@@ -98,7 +98,7 @@ apply:
 #    - test
   when: manual
   only:
-    - master
+    - production
 
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
@@ -115,4 +115,4 @@ destroy:
 #    - test
   when: manual
   only:
-    - master
+    - production
