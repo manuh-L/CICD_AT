@@ -39,6 +39,8 @@ validate:
   script:
     - echo $AWS_ACCESS_KEY_ID
     - echo $AWS_SECRET_ACCESS_KEY
+    - echo $CI_JOB_ID
+    - export
     - echo "Terraform validate"
     - terraform --version
     - packer --version
