@@ -1,14 +1,12 @@
-
-
 ##################################################################################
 # PROVIDERS
 ##################################################################################
 
-provider "aws" {
+provider "aws" {}
 #  access_key = var.aws_access_key
 #  secret_key = var.aws_secret_key
-  region     = "af-south-1"
-}
+#  region     = var.region
+
 
 ##################################################################################
 # DATA
@@ -46,8 +44,8 @@ resource "aws_default_vpc" "default" {
 }
 
 resource "aws_security_group" "allow_ssh" {
-  name        = "SSH_HTTP_ALLOW13"
-  description = "Allow ports 22 & 80"
+  name        = var.sec_name
+  description = "Allow ports 22 & 80 aws"
   vpc_id      = aws_default_vpc.default.id
 
   ingress {
@@ -67,17 +65,17 @@ resource "aws_security_group" "allow_ssh" {
     to_port     = 0
     protocol    = -1
     cidr_blocks = ["0.0.0.0/0"]
-  }
+  } 
 }
 
 resource "aws_instance" "apache_terraform" {
   ami                    = data.aws_ami.aws-linux.id
-  instance_type          = "t3.micro"
+  instance_type          = var.instance_type
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   tags = {
-      Name = "apache"
-      Role = "web"
+      Name = var.tag_Name
+      Role = var.tag_Role
 
   }
 
