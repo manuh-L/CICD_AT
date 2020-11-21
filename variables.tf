@@ -14,7 +14,7 @@ variable "user" {
 variable "tag_Name" {}
 variable "tag_Role" {}
 variable "instance_type" {}
-#variable "region" {}
+variable "region" {}
 variable "sec_name" {}
 variable "aws_ami" {}
 #variable "commit_hash" {}
