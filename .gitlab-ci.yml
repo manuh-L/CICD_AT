@@ -89,6 +89,7 @@ apply:
   script:
     - echo ".....in Production"
 #    - cp ./ansible.cfg /etc/ansible/
+    - terraform plan -state=$STATE -out=$PLAN
     - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
   artifacts:
     paths:
