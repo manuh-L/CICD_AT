@@ -27,11 +27,11 @@ before_script:
 #  - terraform init
 
 stages:
-  - destroy
   - validate
   - build
   - test
   - production
+  - destroy
 
 validate:
   stage: validate
