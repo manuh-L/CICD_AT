@@ -17,7 +17,6 @@ variable "instance_type" {}
 variable "region" {}
 variable "sec_name" {}
 variable "aws_ami" {}
-#variable "commit_hash" {}
 #variable "region" {
 #    default = "af-south-1"
 #}
