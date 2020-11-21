@@ -53,6 +53,8 @@ validate:
 
 plan:
   stage: build
+  environment:
+    name: test
   script:
     - echo "Building..... terraform plan"
     - terraform plan -state=$STATE -out=$PLAN
