@@ -27,12 +27,11 @@ before_script:
 #  - terraform init
 
 stages:
+  - destroy
   - validate
   - build
   - test
   - production
-  - production1
-  - destroy
 
 validate:
   stage: validate
@@ -81,8 +80,8 @@ deploy:
       - $STATE_APPLY
   dependencies:
     - plan
-  only:
-    - test
+#  only:
+#    - test
 #  artifacts:
 #    name: state
 #    paths:
@@ -104,8 +103,8 @@ apply:
     - plan
 #    - test
   when: manual
-  only:
-    - production
+#  only:
+#    - production
 
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
