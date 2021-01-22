@@ -31,14 +31,18 @@ stages:
   - build
   - test
   - production
-  - production1
   - destroy
 
 validate:
   stage: validate
+  environment:
+    name: test
   script:
     - echo $AWS_ACCESS_KEY_ID
     - echo $AWS_SECRET_ACCESS_KEY
+    - echo $AWS_DEFAULT_REGION
+    - echo $CI_JOB_ID
+    - export
     - echo "Terraform validate"
     - terraform --version
     - packer --version
@@ -48,6 +52,8 @@ validate:
 
 plan:
   stage: build
+  environment:
+    name: test
   script:
     - echo "Building..... terraform plan"
     - terraform plan -state=$STATE -out=$PLAN
@@ -74,8 +80,8 @@ deploy:
       - $STATE_APPLY
   dependencies:
     - plan
-  only:
-    - master
+#  only:
+#    - test
 #  artifacts:
 #    name: state
 #    paths:
@@ -90,7 +96,11 @@ apply:
     - echo ".....in Production"
 #    - cp ./ansible.cfg /etc/ansible/
     - terraform plan -state=$STATE -out=$PLAN
+<<<<<<< HEAD
     - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
+=======
+    - terraform apply -state-out=$STATE_APPLY -input=false $PLAN 
+>>>>>>> a465dc35885e78723724ce4ff490a76a8fdbe127
   artifacts:
     paths:
       - $STATE_APPLY
@@ -98,8 +108,8 @@ apply:
     - plan
 #    - test
   when: manual
-  only:
-    - master
+#  only:
+#    - production
 
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
@@ -116,4 +126,4 @@ destroy:
 #    - test
   when: manual
   only:
-    - master
+    - production
