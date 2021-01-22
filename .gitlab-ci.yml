@@ -35,6 +35,8 @@ stages:
 
 validate:
   stage: validate
+  tags: 
+    - local
   environment:
     name: test
   script:
@@ -52,6 +54,8 @@ validate:
 
 plan:
   stage: build
+  tags: 
+    - local
   environment:
     name: test
   script:
@@ -70,6 +74,8 @@ plan:
 
 deploy:
   stage: test
+  tags: 
+    - local
   environment:
     name: test
   script:
@@ -90,17 +96,15 @@ deploy:
 
 apply:
   stage: production
+  tags: 
+    - local
   environment:
     name: production
   script:
     - echo ".....in Production"
 #    - cp ./ansible.cfg /etc/ansible/
     - terraform plan -state=$STATE -out=$PLAN
-<<<<<<< HEAD
     - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
-=======
-    - terraform apply -state-out=$STATE_APPLY -input=false $PLAN 
->>>>>>> a465dc35885e78723724ce4ff490a76a8fdbe127
   artifacts:
     paths:
       - $STATE_APPLY
@@ -115,6 +119,8 @@ apply:
 # action.
 destroy:
   stage: destroy
+  tags: 
+    - local
   environment:
     name: production
   script:
