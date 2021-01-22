@@ -1,12 +1,3 @@
-# Entrypoint is also needed as image by default set `terraform` binary as an
-# entrypoint.
-#image:
-#  name: williamyeh/ansible:ubuntu18.04
-#  entrypoint:
-#    - '/usr/bin/env'
-#    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-#    - 'AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}'
-#    - 'AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}'
 
 # Default output file for Terraform plan
 variables:
@@ -17,9 +8,9 @@ cache:
   paths:
     - .terraform
 
-before_script:
-  - shopt -s expand_aliases
-  - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+#before_script:
+#  - shopt -s expand_aliases
+#  - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
 #  - terraform --version
 #  - packer --version
 #  - ansible --version
@@ -31,7 +22,7 @@ stages:
   - build
   - test
   - production
-  - destroy
+#  - destroy
 
 validate:
   stage: validate
@@ -117,19 +108,19 @@ apply:
 
 # Separate destroy job for manual launching Terraform as it can be destructive
 # action.
-destroy:
-  stage: destroy
-  tags: 
-    - local
-  environment:
-    name: production
-  script:
-    - terraform destroy -state=$STATE_APPLY -input=false -auto-approve #-input=false #-auto-approve
-  dependencies:
-    - plan
-    - deploy
+#destroy:
+#  stage: destroy
+#  tags: 
+#    - local
+#  environment:
+#    name: production
+#  script:
+#    - terraform destroy -state=$STATE_APPLY -input=false -auto-approve #-input=false #-auto-approve
+#  dependencies:
+#    - plan
+#    - deploy
 #    - apply
 #    - test
-  when: manual
-  only:
-    - production
+#  when: manual
+#  only:
+#    - production
