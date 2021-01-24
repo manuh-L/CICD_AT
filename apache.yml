@@ -5,10 +5,10 @@
 
   tasks:
     - name: Install Apache
-      yum: name=httpd state=absent
+      yum: name=httpd state=present
 
- #   - name: Enable Apache Service on boot
- #     service: name=httpd enabled=yes state=started
+    - name: Enable Apache Service on boot
+      service: name=httpd enabled=yes state=started
 
 #    - name: Setting up web page
 #      copy:
