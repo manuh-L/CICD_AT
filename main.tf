@@ -32,6 +32,10 @@ data "aws_ami" "aws-linux" {
  #   values = ["Apache"]
 #  }
 
+tags = {
+  "Name" = "Apache_latest"
+}
+
   filter {
     name   = "root-device-type"
     values = ["ebs"]
