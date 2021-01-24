@@ -119,23 +119,23 @@ resource "aws_instance" "apache_terraform" {
   }
 
 #Creates inventory for ansible
-  provisioner "local-exec" {
-      command = <<EOD
-cat <<EOF > inv.ini
-[web] 
-${aws_instance.apache_terraform.public_ip}
-[web:vars]
-ansible_user=${var.user}
-ansible_ssh_private_key_file=${var.private_key_path}
-EOF
-EOD
-  }
+#  provisioner "local-exec" {
+#      command = <<EOD
+# cat <<EOF > inv.ini
+#[web] 
+#${aws_instance.apache_terraform.public_ip}
+#[web:vars]
+#ansible_user=${var.user}
+#ansible_ssh_private_key_file=${var.private_key_path}
+#EOF
+#EOD
+#  }
 
 
 
 #executes ansible playbook to install apache
-  provisioner "local-exec" {
-    command = "ansible-playbook -i inv.ini apache.yml"
-  }
+#  provisioner "local-exec" {
+#    command = "ansible-playbook -i inv.ini apache.yml"
+#  }
 
 }
