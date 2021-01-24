@@ -15,10 +15,11 @@ provider "aws" {}
 data "aws_ami" "aws-linux" {
   most_recent = true
   owners      = ["self"]
+  name_regex       = "web*"
 
   filter {
     name   = "name"
-    values = ["webserver*"]
+    values = ["webserver"]
   }
 
  # filter {
