@@ -1,17 +1,22 @@
 ---
 - name: webserver configuration
-  hosts: web
+  hosts: all
   become: true
 
   tasks:
-
     - name: Install Apache
-      yum: name=httpd state=present
+      yum: name=httpd state=absent
 
-    - name: Enable Apache Service on boot
-      service: name=httpd enabled=yes state=started
+ #   - name: Enable Apache Service on boot
+ #     service: name=httpd enabled=yes state=started
 
-    - name: Setting up web page
-      copy:
-        src: ./index.html
-        dest: /var/www/html/index.html
+#    - name: Setting up web page
+#      copy:
+#        src: ./index.html
+#        dest: /var/www/html/index.html
+
+    - name: Install NGINX
+      yum: name=nginx state=present
+
+    - name: Enable NGINX
+      service: name=nginx enabled=yes state=started
