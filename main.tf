@@ -26,10 +26,10 @@ data "aws_ami" "aws-linux" {
  #   values = ["webserver"]
   #}
 
-   filter {
-    name   = "Description"
-    values = ["Apache"]
-  }
+#   filter {
+ #   name   = "Description"
+ #   values = ["Apache"]
+#  }
 
   filter {
     name   = "root-device-type"
