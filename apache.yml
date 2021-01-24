@@ -16,7 +16,7 @@
 #        dest: /var/www/html/index.html
 
     - name: Install NGINX
-      yum: name=nginx state=present
+      apt: name=nginx state=present
 
     - name: Enable NGINX
       service: name=nginx enabled=yes state=started
