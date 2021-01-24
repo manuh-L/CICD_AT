@@ -19,7 +19,7 @@ data "aws_ami" "aws-linux" {
 
   filter {
     name   = "name"
-    values = ["webserver"]
+    values = ["webs*"]
   }
 
  # filter {
