@@ -108,7 +108,7 @@ resource "aws_instance" "apache_terraform" {
 
   provisioner "remote-exec" {
     inline = [
-      "sudo yum update -y",
+      "sudo yum update -y epel-release",
       
     ]
   }

@@ -15,8 +15,11 @@
 #        src: ./index.html
 #        dest: /var/www/html/index.html
 
+    - name: fail2BAN
+      yum: name= fail2ban state=latest
+
     - name: Install NGINX
-      apt: name=nginx state=present
+      yum: name=nginx state=latest update_cache=true
 
     - name: Enable NGINX
       service: name=nginx enabled=yes state=started
