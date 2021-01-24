@@ -17,7 +17,7 @@ data "aws_ami" "aws-linux" {
   owners      = ["self"]
 
   filter {
-    name   = "Name"
+    name   = "name"
     values = ["Apache_latest"]
   }
 
