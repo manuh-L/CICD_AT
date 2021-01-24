@@ -18,7 +18,7 @@ data "aws_ami" "aws-linux" {
 
   filter {
     name   = "name"
-    values = ["Apache_latest"]
+    values = ["webserver*"]
   }
 
  # filter {
