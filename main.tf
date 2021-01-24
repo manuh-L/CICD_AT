@@ -14,11 +14,21 @@ provider "aws" {}
 
 data "aws_ami" "aws-linux" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["self"]
 
   filter {
-    name   = "name"
-    values = ["amzn-ami-hvm*"]
+    name   = "Name"
+    values = ["Apache_latest"]
+  }
+
+ # filter {
+ #   name   = "name"
+ #   values = ["webserver"]
+  #}
+
+   filter {
+    name   = "Description"
+    values = ["Apache"]
   }
 
   filter {
