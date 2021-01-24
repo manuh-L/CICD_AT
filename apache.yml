@@ -32,7 +32,3 @@
         regexp: '^#PasswordAuthentication yes'
         line: 'PasswordAuthentication no'
 
-
-
-    - name: fail2BAN
-      yum: name= fail2ban state=latest
