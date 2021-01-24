@@ -90,8 +90,8 @@ resource "aws_instance" "apache_terraform" {
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
   tags = {
-      Name = "var.tag_Name ${count.index}"
-      Role = "var.tag_Role ${count.index}"
+      Name = var.tag_Name[count.index]
+      Role = var.tag_Role [count.index]
 
   }
 
