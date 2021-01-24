@@ -123,7 +123,7 @@ resource "aws_instance" "apache_terraform" {
       command = <<EOD
  cat <<EOF > inv.ini
 [web] 
-${aws_instance.apache_terraform.public_ip }
+${aws_instance.apache_terraform[count.index].public_ip }
 [web:vars]
 ansible_user=${var.user}
 ansible_ssh_private_key_file=${var.private_key_path}
