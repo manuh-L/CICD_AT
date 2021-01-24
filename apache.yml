@@ -15,11 +15,24 @@
 #        src: ./index.html
 #        dest: /var/www/html/index.html
 
+    - name: Add allowed users group
+      group:
+        name: allowed_users
+        state: present
+
+    - name: Disable SSH root login
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PermitRootLogin'
+        line: 'PermitRootLogin no'
+
+    - name: Disable SSH password authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PasswordAuthentication yes'
+        line: 'PasswordAuthentication no'
+
+
+
     - name: fail2BAN
       yum: name= fail2ban state=latest
-
-    - name: Install NGINX
-      yum: name=nginx state=latest update_cache=true
-
-    - name: Enable NGINX
-      service: name=nginx enabled=yes state=started
