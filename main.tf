@@ -135,8 +135,8 @@ EOD
 
 
 #executes ansible playbook to install apache
-#  provisioner "local-exec" {
-#    command = "ansible-playbook -i inv.ini apache.yml"
-#  }
+  provisioner "local-exec" {
+    command = "ansible-playbook -i inv.ini apache.yml"
+  }
 
 }
