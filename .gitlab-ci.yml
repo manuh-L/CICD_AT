@@ -43,23 +43,22 @@ validate:
     - terraform validate
 
 
-#Packer_test:
-#  stage: build
-#  environment:
-#    name: test
-#  tags:
-#    - packer
-#    - local
-#  script:
-#    - pwd
-#    - ansible --version
-#    - packer build ami_ansible.json | tee -a $PACKER_OUTPUT
-#  artifacts:
+Packer_test:
+  stage: build
+  environment:
+    name: test
+  tags:
+    - packer
+    - local
+  script:
+    - ansible --version
+    - packer build ami_ansible.json | tee -a $PACKER_OUTPUT
+  artifacts:
 #    untracked: false
 #    expire_in: 1 days
-#    paths:
-#      - $PACKER_OUTPUT
-#  when: manual
+    paths:
+      - $PACKER_OUTPUT
+  when: manual
 
 
 plan:
