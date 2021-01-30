@@ -10,25 +10,7 @@
     - name: Enable Apache Service on boot
       service: name=httpd enabled=yes state=started
 
-#    - name: Setting up web page
-#      copy:
-#        src: ./index.html
-#        dest: /var/www/html/index.html
-
-    - name: Add allowed users group
-      group:
-        name: allowed_users
-        state: present
-
-    - name: Disable SSH root login
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^#PermitRootLogin'
-        line: 'PermitRootLogin no'
-
-    - name: Disable SSH password authentication
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^#PasswordAuthentication yes'
-        line: 'PasswordAuthentication no'
-
+    - name: Setting up web page
+      copy:
+        src: ./index.html
+        dest: /var/www/html/index.html

@@ -1,0 +1,23 @@
+---
+- name: HARDENING
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Add allowed users group
+      group:
+        name: allowed_users
+        state: present
+
+    - name: Disable SSH root login
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PermitRootLogin'
+        line: 'PermitRootLogin no'
+
+    - name: Disable SSH password authentication
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#PasswordAuthentication yes'
+        line: 'PasswordAuthentication no'
+

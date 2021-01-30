@@ -131,7 +131,11 @@ apply:
   script:
     - echo ".....in Production"
     - terraform plan -state=$STATE -out=$PLAN
-    - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
+#    - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
+    - terraform apply -state-out=$STATE_APPLY -input=false $PLAN
   artifacts:
     paths:
       - $STATE_APPLY
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual

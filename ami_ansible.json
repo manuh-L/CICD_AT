@@ -40,6 +40,14 @@
             "extra_arguments": [
                 "-v"
             ]
+        },
+                {
+            "type": "ansible",
+            "user": "ec2-user",
+            "playbook_file": "hardening.yml",
+            "extra_arguments": [
+                "-v"
+            ]
         }
     ]
 }
