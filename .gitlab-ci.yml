@@ -54,11 +54,8 @@ Packer_test:
     - ansible --version
     - packer build ami_ansible.json | tee -a $PACKER_OUTPUT
   artifacts:
-#    untracked: false
-#    expire_in: 1 days
     paths:
       - $PACKER_OUTPUT
-  when: manual
 
 
 plan:
@@ -126,6 +123,7 @@ apply test:
 
 apply:
   stage: production
+  needs: [Packer_pro]
   tags: 
     - local
   environment:
