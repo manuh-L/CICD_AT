@@ -82,8 +82,8 @@ Packer_pro:
   stage: build
   environment:
     name: production
-  only:
-    - production
+#  only:
+#    - production
   tags:
     - packer
     - local
