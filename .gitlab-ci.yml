@@ -12,7 +12,7 @@ cache:
 before_script:
   - shopt -s expand_aliases
   - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
-  - terraform init
+#  - terraform init
 
 stages:
   - validate
@@ -39,11 +39,8 @@ validate:
     - echo "-------------- Validating Packer Code --------------"
     - packer validate ami_ansible.json
     - echo "------------------------- Terraform validate Init -----------------------"
- #   - terraform init
+    - terraform init
     - terraform validate
-  artifacts:
-    paths:                                                                                                                                                                                                                                                                                                                                                                        
-      - ./terraform
 
 
 #Packer_test:
@@ -73,8 +70,6 @@ plan:
     name: test
   script:
     - echo "Building..... terraform plan"
-#    - terraform init
-#    - terraform state replace-provider registry.terraform.io/-/aws registry.terraform.io/hashicorp/aws
     - terraform plan -state=$STATE_APPLY -out=$PLAN
     - terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE
   artifacts:
@@ -83,8 +78,8 @@ plan:
       - $STATE_APPLY
     reports:
       terraform: $JSON_PLAN_FILE
-  dependencies:
-    - validate
+#  dependencies:
+#    - validate
   when: manual
 
 Packer_pro:
