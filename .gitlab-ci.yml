@@ -123,7 +123,7 @@ apply test:
 
 apply:
   stage: production
-  needs: [Packer_pro]
+  needs: ["Packer_pro"]
   tags: 
     - local
   environment:
@@ -135,32 +135,9 @@ apply:
   artifacts:
     paths:
       - $STATE_APPLY
-  dependencies:
-    - plan
-#    - test
-#  when: manual
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-#      allow_failure: true
 #  only:
-#    - production
-
-# Separate destroy job for manual launching Terraform as it can be destructive
-# action.
-#destroy:
-#  stage: destroy
-#  tags: 
-#    - local
-#  environment:
-#    name: production
-#  script:
-#    - terraform destroy -state=$STATE_APPLY -input=false -auto-approve #-input=false #-auto-approve
-#  dependencies:
-#    - plan
-#    - deploy
-#    - apply
+#    - test#  only:
 #    - test
-#  when: manual
 #  only:
-#    - production
+#    - test#  only:
+#    - test
