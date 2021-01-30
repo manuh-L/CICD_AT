@@ -1,0 +1,167 @@
+
+# Default output file for Terraform plan
+variables:
+  PLAN: plan.tfplan
+  JSON_PLAN_FILE: tfplan.json
+  STATE_APPLY: to.tfstate
+  PACKER_OUTPUT: image.log
+cache:
+  paths:
+    - .terraform
+
+before_script:
+  - shopt -s expand_aliases
+  - alias convert_report="jq -r '([.resource_changes[]?.change.actions?]|flatten)|{\"create\":(map(select(.==\"create\"))|length),\"update\":(map(select(.==\"update\"))|length),\"delete\":(map(select(.==\"delete\"))|length)}'"
+  - terraform init
+
+stages:
+  - validate
+  - build
+  - test
+  - production
+#  - destroy
+
+validate:
+  stage: validate
+  tags: 
+    - local
+  environment:
+    name: test
+  script:
+    - echo $AWS_ACCESS_KEY_ID
+    - echo $AWS_SECRET_ACCESS_KEY
+    - echo $AWS_DEFAULT_REGION
+    - echo $CI_JOB_ID
+    - export
+    - terraform --version
+    - packer --version
+    - ansible --version
+    - echo "-------------- Validating Packer Code --------------"
+    - packer validate ami_ansible.json
+    - echo "------------------------- Terraform validate Init -----------------------"
+ #   - terraform init
+    - terraform validate
+  artifacts:
+    paths:                                                                                                                                                                                                                                                                                                                                                                        
+      - ./terraform
+
+
+#Packer_test:
+#  stage: build
+#  environment:
+#    name: test
+#  tags:
+#    - packer
+#    - local
+#  script:
+#    - pwd
+#    - ansible --version
+#    - packer build ami_ansible.json | tee -a $PACKER_OUTPUT
+#  artifacts:
+#    untracked: false
+#    expire_in: 1 days
+#    paths:
+#      - $PACKER_OUTPUT
+#  when: manual
+
+
+plan:
+  stage: build
+  tags: 
+    - local
+  environment:
+    name: test
+  script:
+    - echo "Building..... terraform plan"
+#    - terraform init
+#    - terraform state replace-provider registry.terraform.io/-/aws registry.terraform.io/hashicorp/aws
+    - terraform plan -state=$STATE_APPLY -out=$PLAN
+    - terraform show --json $PLAN | convert_report > $JSON_PLAN_FILE
+  artifacts:
+    paths:                                                                                                                                                                                                                                                                                                                                                                        
+      - $PLAN
+      - $STATE_APPLY
+    reports:
+      terraform: $JSON_PLAN_FILE
+  dependencies:
+    - validate
+  when: manual
+
+Packer_pro:
+  stage: build
+  environment:
+    name: production
+  only:
+    - production
+  tags:
+    - packer
+    - local
+  script:
+    - pwd
+    - ansible --version
+    - packer build ami_ansible.json
+
+# Separate apply job for manual launching Terraform as it can be destructive
+# action.
+
+apply test:
+  stage: test
+  tags: 
+    - local
+  environment:
+    name: test
+  script:
+#    - terraform apply -state=$STATE -input=false $PLAN -state-out=$STATE_APPLY
+    - terraform apply -state-out=$STATE_APPLY -input=false $PLAN
+  artifacts:
+    paths:
+      - $STATE_APPLY
+  dependencies:
+    - plan
+  when: manual
+#  only:
+#    - test
+#  artifacts:
+#    name: state
+#    paths:
+#        - $STATE
+
+
+apply:
+  stage: production
+  tags: 
+    - local
+  environment:
+    name: production
+  script:
+    - echo ".....in Production"
+    - terraform plan -state=$STATE -out=$PLAN
+    - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
+  artifacts:
+    paths:
+      - $STATE_APPLY
+  dependencies:
+    - plan
+#    - test
+  when: manual
+#  only:
+#    - production
+
+# Separate destroy job for manual launching Terraform as it can be destructive
+# action.
+#destroy:
+#  stage: destroy
+#  tags: 
+#    - local
+#  environment:
+#    name: production
+#  script:
+#    - terraform destroy -state=$STATE_APPLY -input=false -auto-approve #-input=false #-auto-approve
+#  dependencies:
+#    - plan
+#    - deploy
+#    - apply
+#    - test
+#  when: manual
+#  only:
+#    - production
