@@ -85,8 +85,8 @@ Packer_pro:
   stage: build
   environment:
     name: production
-  only:
-    - production
+#  only:
+#    - production
   tags:
     - packer
     - local
@@ -94,6 +94,9 @@ Packer_pro:
     - pwd
     - ansible --version
     - packer build ami_ansible.json
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: manual
 
 # Separate apply job for manual launching Terraform as it can be destructive
 # action.
@@ -138,6 +141,10 @@ apply:
     - plan
 #    - test
   when: manual
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#      when: manual
+#      allow_failure: true
 #  only:
 #    - production
 
