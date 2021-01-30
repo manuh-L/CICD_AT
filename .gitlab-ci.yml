@@ -47,6 +47,8 @@ Packer_test:
   stage: build
   environment:
     name: test
+  only:
+    - test
   tags:
     - packer
     - local
@@ -113,8 +115,8 @@ apply test:
   dependencies:
     - plan
 #  when: manual
-#  only:
-#    - test
+  only:
+    - test
 #  artifacts:
 #    name: state
 #    paths:
