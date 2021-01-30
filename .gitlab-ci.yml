@@ -140,10 +140,10 @@ apply:
   dependencies:
     - plan
 #    - test
-  when: manual
+#  when: manual
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#      when: manual
+      when: manual
 #      allow_failure: true
 #  only:
 #    - production
