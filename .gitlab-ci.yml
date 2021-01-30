@@ -76,14 +76,14 @@ plan:
       terraform: $JSON_PLAN_FILE
 #  dependencies:
 #    - validate
-  when: manual
+#  when: manual
 
 Packer_pro:
   stage: build
   environment:
     name: production
-#  only:
-#    - production
+  only:
+    - production
   tags:
     - packer
     - local
@@ -93,7 +93,7 @@ Packer_pro:
     - packer build ami_ansible.json
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
+#      when: manual
 
 # Separate apply job for manual launching Terraform as it can be destructive
 # action.
@@ -112,7 +112,7 @@ apply test:
       - $STATE_APPLY
   dependencies:
     - plan
-  when: manual
+#  when: manual
 #  only:
 #    - test
 #  artifacts:
