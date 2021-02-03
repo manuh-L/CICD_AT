@@ -88,8 +88,8 @@ Packer_pro:
     - local
   script:
     - packer build ami_ansible.json
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 #      when: manual
 
 
