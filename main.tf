@@ -130,7 +130,6 @@ ansible_ssh_private_key_file=${var.private_key_path}
 EOF
 EOD
   }
-# "${var.azure_bastionserver}${format("%02d", count.index + 1)}"
 
 
 

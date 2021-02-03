@@ -1,5 +1,5 @@
 
-# Default output file for Terraform plan
+# Default output file for Packer and Terraform
 variables:
   PLAN: plan.tfplan
   JSON_PLAN_FILE: tfplan.json
@@ -43,7 +43,7 @@ validate:
     - terraform validate
 
 
-Packer_test:
+Test_Image:
   stage: build
   environment:
     name: test
@@ -53,7 +53,6 @@ Packer_test:
     - packer
     - local
   script:
-    - ansible --version
     - packer build ami_ansible.json | tee -a $PACKER_OUTPUT
   artifacts:
     paths:
@@ -76,9 +75,7 @@ plan:
       - $STATE_APPLY
     reports:
       terraform: $JSON_PLAN_FILE
-#  dependencies:
-#    - validate
-#  when: manual
+
 
 Packer_pro:
   stage: build
@@ -90,15 +87,12 @@ Packer_pro:
     - packer
     - local
   script:
-    - pwd
-    - ansible --version
     - packer build ami_ansible.json
-#  rules:
-#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
 #      when: manual
 
-# Separate apply job for manual launching Terraform as it can be destructive
-# action.
+
 
 apply test:
   stage: test
@@ -107,22 +101,17 @@ apply test:
   environment:
     name: test
   script:
-#    - terraform apply -state=$STATE -input=false $PLAN -state-out=$STATE_APPLY
     - terraform apply -state-out=$STATE_APPLY -input=false $PLAN
   artifacts:
     paths:
       - $STATE_APPLY
   dependencies:
     - plan
-#  when: manual
   only:
     - test
-#  artifacts:
-#    name: state
-#    paths:
-#        - $STATE
 
-
+# Separate apply job for manual launching Terraform as it can be destructive
+# action.
 apply:
   stage: production
 #  needs: ["Packer_pro"]
@@ -135,7 +124,6 @@ apply:
   script:
     - echo ".....in Production"
     - terraform plan -state=$STATE -out=$PLAN
-#    - terraform apply -input=false $PLAN -state-out=$STATE_APPLY
     - terraform apply -state-out=$STATE_APPLY -input=false $PLAN
   artifacts:
     paths:
