@@ -4,7 +4,7 @@ key_name = "PrivateSvr"
 private_key_path ="./PrivateSvr.pem"
 #region = "af-south-1"
 instance_type = "t3.micro"
-vm_num = 1
+vm_num = 2
 #ami
 aws_ami = "aaaa"
 
