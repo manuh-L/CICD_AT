@@ -1,0 +1,6 @@
+---
+#defautl file for input user details
+
+users:
+- {name: ops01, groups: allowed_users, comment: "local user", shell: /sbin/login}
+- {name: ap01, groups: allowed_users, comment: "service account", shell: /sbin/nologin}

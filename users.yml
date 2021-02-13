@@ -1,0 +1,20 @@
+---
+- name: Group & users Creation
+  hosts: all
+  vars_files:
+    - users_var.yml
+  become: true
+
+  tasks:
+    - name: Add allowed users group
+      group:
+        name: allowed_users
+        state: present
+
+    - name: Create users
+      user:
+        name: "{{item.name}}"
+        groups: "{{item.groups}}"
+        shell:  "{{item.shell}}"
+        comment: "{{item.comment}}"
+      with_items: "{{ users }}"
