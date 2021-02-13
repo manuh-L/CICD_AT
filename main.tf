@@ -133,9 +133,9 @@ EOD
 
 
 
-#executes ansible playbook to install apache
+#executes ansible playbook user & group creation
   provisioner "local-exec" {
-    command = "ansible-playbook -i inv.ini apache.yml"
+    command = "ansible-playbook -i inv.ini users.yml"
   }
 
 }
